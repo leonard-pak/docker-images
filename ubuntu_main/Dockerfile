@@ -10,6 +10,7 @@ RUN apt-get update \
     wget \
     git \
     vim \
+    bash-completion \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/MrLeonardPak/my-workspace.git
