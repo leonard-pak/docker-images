@@ -3,6 +3,9 @@ FROM gcc:latest
 ENV USER=$(whoami)
 ENV DISPLAY=host.docker.internal:0.0
 
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Update & Upgrade
 RUN apt-get update \
     && apt-get upgrade -y \
