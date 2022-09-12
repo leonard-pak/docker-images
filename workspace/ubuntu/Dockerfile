@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
 ENV USER=$(whoami)
-ENV DISPLAY=host.docker.internal:0.0
 
 # Update & Upgrade
 RUN apt-get update \
@@ -20,4 +19,3 @@ RUN apt-get update \
 
 RUN git clone https://github.com/MrLeonardPak/workspace-setup.git $HOME/workspace-setup
 RUN $HOME/workspace-setup/setup-docker.bash
-
