@@ -10,6 +10,11 @@ RUN apt-get update \
     && apt-get install -y \
     ros-foxy-desktop \
     ros-foxy-moveit \
+    ros-foxy-joint-state-publisher \
+    ros-foxy-joint-state-publisher-gui \
+    ros-foxy-xacro \
+    ros-foxy-ros2-control \
+    ros-foxy-ros2-controllers \
     && rm -rf /var/lib/apt/lists/*
 
 # Add Toolchain PPA
