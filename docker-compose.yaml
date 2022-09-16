@@ -2,8 +2,15 @@ version: "3.9"
 services:
   workspace:
     build: #Dockerfile
-    container_name: "workspace"
+    container_name: #"workspace"
     tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     environment:
       - DISPLAY=$DISPLAY
       - WAYLAND_DISPLAY=$WAYLAND_DISPLAY
