@@ -5,39 +5,27 @@ ENV USER=$(whoami)
 ENV TZ=Europe/Moscow
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Install ROS packages
+# Update & Upgrade
 RUN apt-get update \
-    && apt-get install -y \
-    ros-foxy-desktop \
-    ros-foxy-moveit \
-    ros-foxy-joint-state-publisher \
-    ros-foxy-joint-state-publisher-gui \
-    ros-foxy-xacro \
-    ros-foxy-ros2-control \
-    ros-foxy-ros2-controllers \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get upgrade -y
+
+# Install ROS packages
+RUN apt-get install -y \
+    ros-foxy-desktop
 
 # Add Toolchain PPA
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt-get install -y \
     software-properties-common \
-    && rm -rf /var/lib/apt/lists/* \
     && add-apt-repository -y ppa:ubuntu-toolchain-r/test 
 
 # Install GCC-11
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt-get install -y \
     gcc-11 \
     g++-11 \
-    && rm -rf /var/lib/apt/lists/* \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
     --slave /usr/bin/g++ g++ /usr/bin/g++-11 \
     --slave /usr/bin/gcov gcov /usr/bin/gcov-11
 
-# Update & Upgrade
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && rm -rf /var/lib/apt/lists/*
 
 # Install tools
 RUN apt-get update \
@@ -46,9 +34,10 @@ RUN apt-get update \
     git \
     vim \
     tree \
-    bash-completion \
-    && rm -rf /var/lib/apt/lists/*
+    bash-completion
+
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/MrLeonardPak/workspace-setup.git $HOME/workspace-setup
 RUN $HOME/workspace-setup/setup-docker.bash
-
+RUN $HOME/workspace-setup/setup-ros2.bash
