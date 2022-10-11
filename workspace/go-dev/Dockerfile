@@ -10,8 +10,7 @@ RUN apt-get update \
     && apt-get upgrade -y
 
 # Install tools
-RUN apt-get update \
-    && apt-get install -y \
+RUN apt-get install -y \
     wget \
     git \
     vim \
@@ -20,6 +19,5 @@ RUN apt-get update \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/MrLeonardPak/workspace-setup.git $HOME/workspace-setup
-RUN $HOME/workspace-setup/setup-docker.bash
-
+RUN git clone https://github.com/MrLeonardPak/workspace-setup.git $HOME/workspace-setup \
+    && $HOME/workspace-setup/setup-docker.bash
