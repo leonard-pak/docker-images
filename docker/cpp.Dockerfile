@@ -14,6 +14,7 @@ RUN apt-get update \
   git \
   vim \
   tree \
+  unzip\
   bash-completion \
   && rm -rf /var/lib/apt/lists/*
 # Install workspace

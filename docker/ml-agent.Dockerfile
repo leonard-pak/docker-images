@@ -6,11 +6,12 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Install tools
 RUN apt-get update \
   && apt-get install -y \
+  curl \
   wget \
+  unzip\
   git \
   neovim \
   tree \
-  curl \
   python3 \
   python3-pip \
   && rm -rf /var/lib/apt/lists/*

@@ -26,6 +26,7 @@ RUN apt-get update \
     wget \
     git \
     vim \
+    unzip\
     tree \
     bash-completion
 RUN rm -rf /var/lib/apt/lists/*
