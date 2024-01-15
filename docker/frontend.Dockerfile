@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM debian:latest
 # Add user and timezone
 ENV USER=$(whoami)
 ENV TZ=Europe/Moscow
@@ -7,7 +7,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update \
   && apt-get upgrade -y \
   && rm -rf /var/lib/apt/lists/*
-# Install tools
 RUN apt-get update \
   && apt-get install -y \
   curl \
@@ -40,3 +39,4 @@ RUN nvm install lts && nvm use lts
 RUN set --universal nvm_default_version lts
 
 WORKDIR /home/$NEW_USER
+ENTRYPOINT ["/usr/bin/fish"]
