@@ -16,10 +16,15 @@ RUN apt-get update \
   neovim \
   tree \
   sudo \
-  unzip\
+  unzip \
   bash-completion \
-  cmake\
+  cmake \
+  gdb \
   && rm -rf /var/lib/apt/lists/*
+# Fix gdb
+RUN mv /usr/bin/gdb /usr/bin/gdborig
+RUN echo '#!/bin/sh\nsudo gdborig $@' > /usr/bin/gdb
+RUN chmod 0755 /usr/bin/gdb
 # Install fish
 RUN echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/ /' | tee /etc/apt/sources.list.d/shells:fish:release:3.list
 RUN curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_12/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
