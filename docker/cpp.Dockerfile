@@ -35,7 +35,7 @@ SHELL ["fish", "--command"]
 RUN chsh -s /usr/bin/fish
 # Add user
 ARG NEW_USER
-RUN useradd -ms /usr/local/bin/fish $NEW_USER
+RUN useradd -ms /usr/bin/fish $NEW_USER
 RUN usermod -aG sudo $NEW_USER
 RUN passwd -d $NEW_USER
 USER $NEW_USER
@@ -43,3 +43,4 @@ USER $NEW_USER
 RUN curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 
 WORKDIR /home/$NEW_USER
+ENTRYPOINT ["/usr/bin/fish"]
