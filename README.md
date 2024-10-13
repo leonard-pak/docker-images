@@ -3,13 +3,14 @@
 ## Buld Dockerfile
 ```bash
 docker build -f docker/***.Dockerfile .
-docker build -f docker/***.Dockerfile --build-arg NEW_USER=leonard -t *** .
+docker build -f docker/***.Dockerfile --build-arg NEW_USER=${USER} --build-arg BOOST_VERSION=*.**.* -t *** .
 ```
 
 # Run deteached container with volume and host network
 ```bash
 docker run -d -it -v /source:/dest \
               --network host \
+              -h DOCKER \
               --name my-container ***
 ```
 

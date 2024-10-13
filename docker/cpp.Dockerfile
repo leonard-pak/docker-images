@@ -1,4 +1,6 @@
 FROM gcc:latest
+ARG NEW_USER
+ARG BOOST_VERSION
 # Add user and timezone
 ENV USER=$(whoami)
 ENV TZ=Europe/Moscow
@@ -25,6 +27,15 @@ RUN apt-get update \
 RUN mv /usr/bin/gdb /usr/bin/gdborig
 RUN echo '#!/bin/sh\nsudo gdborig $@' > /usr/bin/gdb
 RUN chmod 0755 /usr/bin/gdb
+# Install Boost. From https://leimao.github.io/blog/Boost-Docker/
+RUN cd /tmp && \
+  BOOST_VERSION_MOD=$(echo $BOOST_VERSION | tr . _) && \
+  wget https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION_MOD}.tar.bz2 && \
+  tar --bzip2 -xf boost_${BOOST_VERSION_MOD}.tar.bz2 && \
+  cd boost_${BOOST_VERSION_MOD} && \
+  ./bootstrap.sh --prefix=/usr/local && \
+  ./b2 install && \
+  rm -rf /tmp/*
 # Install fish
 RUN echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_12/ /' | tee /etc/apt/sources.list.d/shells:fish:release:3.list
 RUN curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_12/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
@@ -34,7 +45,6 @@ RUN apt-get update \
 SHELL ["fish", "--command"]
 RUN chsh -s /usr/bin/fish
 # Add user
-ARG NEW_USER
 RUN useradd -ms /usr/bin/fish $NEW_USER
 RUN usermod -aG sudo $NEW_USER
 RUN passwd -d $NEW_USER
