@@ -17,8 +17,6 @@ COMMANDS_FILES = (
     Path("config/post_start_commands.yaml"),
     Path("context/post_start_commands.yaml"),
 )
-# Other params
-BOOST_VERSION = "1.89.0"
 
 ENABLE_GUI = False
 USE_X11 = False
@@ -27,6 +25,16 @@ PROXY_GIT = True
 uid = os.getuid()
 gid = os.getgid()
 pwd = os.getcwd()
+
+
+def get_user() -> str:
+    user = os.environ.get("USER")
+    if user is None:
+        exit(
+            "❌ Невозможно получить имя пользователя из переменных окружения. "
+            "Объявите его в переменных или укажите вручную."
+        )
+    return user  # pyright: ignore[reportReturnType]
 
 
 def run_cmd(cmd, capture_output=True, shell=False):
@@ -202,9 +210,9 @@ def build(no_cache: bool):
         IMAGE_NAME,
         "--build-arg",
         f"PROJECT_NAME={PROJECT_NAME}",
-        # HACK here custom args
         "--build-arg",
-        f"BOOST_VERSION={BOOST_VERSION}",
+        f"NEW_USER={get_user()}",
+        # HACK pass here args for build
         ".",
     ]
 
@@ -286,9 +294,7 @@ def up():
         if PROXY_GIT:
             home_path = get_home_path()
             copy_to_container(Path.home() / ".gitconfig", f"{home_path}/.gitconfig")
-            copy_to_container(
-                Path.home() / ".ssh/known_hosts", f"{home_path}/.ssh/known_hosts"
-            )
+            copy_to_container(Path.home() / ".ssh", f"{home_path}")
 
         execute_post_start_commands()
 
