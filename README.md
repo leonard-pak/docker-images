@@ -1,27 +1,17 @@
 # Docker Images
 
-## Buld Dockerfile
-```bash
-docker build -f docker/***.Dockerfile .
-docker build -f docker/***.Dockerfile --build-arg NEW_USER=${USER} --build-arg BOOST_VERSION=*.**.* -t *** .
-```
+## c-script
 
-# Run deteached container with volume and host network
-```bash
-docker run -d -it -v /source:/dest \
-              --network host \
-              -h DOCKER \
-              --name my-container ***
-```
+> ./c - скрипт для управления контейнером проекта. В проект необходимо скопировать скрипт, Dockerfile и папку конфиг.
 
-# Run container with GUI support
-```bash
-docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -v /mnt/wslg:/mnt/wslg \
-                      -e DISPLAY=$DISPLAY -e WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
-                      -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR -e PULSE_SERVER=$PULSE_SERVER --name my-container ***
-```
+### Команды
 
-## Run docker compose
-```bash
-docker compose up
-```
+- attach  - Подключение к контейнеру.
+- build   - Сборка Docker-образа.
+- down    - Остановка и удаление контейнеров.
+- status  - Проверка статуса контейнера.
+- up      - Запуск контейнера из образа.
+
+## TODO
+
+- скрипт создания проекта с настройкой гита

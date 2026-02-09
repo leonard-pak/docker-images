@@ -1,0 +1,3 @@
+# use only ""
+post_start_commands:
+  - mkdir -p /***/context/vscode-server && ln -s /***/context/vscode-server ~/.vscode-server 
