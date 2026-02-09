@@ -10,6 +10,8 @@
 ### C++
 
 ```dockerfile
+ARG BOOST_VERSION
+
 # Add Toolchain PPA
 RUN apt-get update && apt-get install -y \
     software-properties-common && \
